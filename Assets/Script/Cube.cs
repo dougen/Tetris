@@ -44,7 +44,7 @@ public class Cube : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            transform.Rotate(0, 0, -90);
+            RotationCube(++rotationType);
 
             if (IsValidGridPos())
             {
@@ -52,10 +52,10 @@ public class Cube : MonoBehaviour
             }
             else
             {
-                transform.Rotate(0, 0, 90);
+                RotationCube(--rotationType);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow) || Time.time - lastFall >= 1)
+        else if (Input.GetKey(KeyCode.DownArrow) || Time.time - lastFall >= 1)
         {
             transform.position += new Vector3(0, -1, 0);
 
@@ -83,7 +83,6 @@ public class Cube : MonoBehaviour
             // 当子方块出界时，返回false
             if (!Grid.InsideBorder(v))
             {
-                Debug.Log("out");
                 return false;
             }
 
@@ -156,14 +155,64 @@ public class Cube : MonoBehaviour
                 break;
 
             case 2:             // L方块
+                if (rotType % 4 == 0)
+                {
+                    TransformPos(new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(2, 1, 0));
+                }
+                else if (rotType % 4 == 1)
+                {
+                    TransformPos(new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0), new Vector3(2, 0, 0));
+                }
+                else if (rotType % 4 == 2)
+                {
+                    TransformPos(new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(2, 0, 0), new Vector3(2, 1, 0));
+                }
+                else if (rotType % 4 == 3)
+                {
+                    TransformPos(new Vector3(0, 2, 0), new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0));
+                }
                 break;
             case 3:             // O方块
+                // 不做任何变化
+                rotType = 0;
                 break;
             case 4:             // S方块
+                if (rotType % 2 == 0)
+                {
+                    TransformPos(new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(2, 1, 0));
+                }
+                else if (rotType % 2 == 1)
+                {
+                    TransformPos(new Vector3(0, 1, 0), new Vector3(0, 2, 0), new Vector3(1, 0, 0), new Vector3(1, 1, 0));
+                }
                 break;
             case 5:             // T方块
+                if (rotType % 4 == 0)
+                {
+                    TransformPos(new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0), new Vector3(2, 1, 0));
+                }
+                else if (rotType % 4 == 1)
+                {
+                    TransformPos(new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0), new Vector3(2, 1, 0));
+                }
+                else if (rotType % 4 == 2)
+                {
+                    TransformPos(new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(2, 0, 0), new Vector3(1, 1, 0));
+                }
+                else if (rotType % 4 == 3)
+                {
+                    TransformPos(new Vector3(0, 1, 0), new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(1, 2, 0));
+                }
                 break;
             case 6:             // Z方块
+                if (rotType % 2 == 0)
+                {
+                    TransformPos(new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0), new Vector3(2, 0, 0));
+                }
+                else if (rotType % 2 == 1)
+                {
+                    TransformPos(new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(2, 1, 0), new Vector3(2, 2, 0));
+                }
                 break;
         }
     }
