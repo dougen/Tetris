@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Cube : MonoBehaviour 
+public class Cube : MonoBehaviour
 {
     private float lastFall = 0;
     private int rotationType = 0;
@@ -74,12 +74,86 @@ public class Cube : MonoBehaviour
         }
     }
 
+    // 撞墙检测
+    private bool WallKicks()
+    {
+        if (Spawner.cubeType == 0)  //方块I
+        {
+            if (rotationType % 2 == 0)
+            {
+                if (!IsValidGridPos())
+                {
+                    transform.position += new Vector3(1, 0, 0);
+                    if (!IsValidGridPos())
+                    {
+                        transform.position += new Vector3(1, 0, 0);
+                        if (!IsValidGridPos())
+                        {
+                            transform.position += new Vector3(-3, 0, 0);
+                            if (!IsValidGridPos())
+                            {
+                                transform.position += new Vector3(1, 0, 0);
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            else if ( rotationType % 2 == 1)
+            {
+                if (!IsValidGridPos())
+                {
+                    transform.position += new Vector3(0, 1, 0);
+                    if (!IsValidGridPos())
+                    {
+                        transform.position += new Vector3(0, 1, 0);
+                        if (!IsValidGridPos())
+                        {
+                            transform.position += new Vector3(0, -3, 0);
+                            if (!IsValidGridPos())
+                            {
+                                transform.position += new Vector3(0, 1, 0);
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        else if (Spawner.cubeType == 1) //方块J
+        {
+
+        }
+        else if (Spawner.cubeType == 2) //方块L
+        {
+
+        }
+        else if (Spawner.cubeType == 3) //方块O
+        {
+
+        }
+        else if (Spawner.cubeType == 4) //方块S
+        {
+
+        }
+        else if (Spawner.cubeType == 5) //方块T
+        {
+
+        }
+        else if (Spawner.cubeType == 6) //方块Z
+        {
+
+        }
+        return true;
+    }
+
     private bool IsValidGridPos()
     {
         foreach (Transform child in transform)
         {
             Vector2 v = Grid.RoundVec2(child.position);
-            
+
             // 当子方块出界时，返回false
             if (!Grid.InsideBorder(v))
             {
@@ -98,9 +172,9 @@ public class Cube : MonoBehaviour
 
     private void UpdateGrid()
     {
-        for (int y=0; y<Grid.h; ++y)
+        for (int y = 0; y < Grid.h; ++y)
         {
-            for (int x=0; x<Grid.w; ++x)
+            for (int x = 0; x < Grid.w; ++x)
             {
                 if (Grid.grid[x, y] != null)
                 {

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour 
 {
-    public static int cubeType = 0;
+    public static int cubeType;
     public GameObject[] groups;
 
     private void Start()
