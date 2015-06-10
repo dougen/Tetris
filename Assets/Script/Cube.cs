@@ -46,7 +46,7 @@ public class Cube : MonoBehaviour
         {
             RotationCube(++rotationType);
 
-            if (IsValidGridPos())
+            if (WallKicks())
             {
                 UpdateGrid();
             }
@@ -121,30 +121,47 @@ public class Cube : MonoBehaviour
             }
 
         }
-        else if (Spawner.cubeType == 1) //方块J
+        else if (Spawner.cubeType == 1 || Spawner.cubeType == 2 || Spawner.cubeType == 5) //方块J
         {
-
-        }
-        else if (Spawner.cubeType == 2) //方块L
-        {
-
-        }
-        else if (Spawner.cubeType == 3) //方块O
-        {
-
+            if (!IsValidGridPos())
+            {
+                transform.position += new Vector3(1, 0, 0);
+                if (!IsValidGridPos())
+                {
+                    transform.position += new Vector3(-2, 0, 0);
+                    if (!IsValidGridPos())
+                    {
+                        transform.position += new Vector3(1, 0, 0);
+                        return false;
+                    }
+                }
+            }
         }
         else if (Spawner.cubeType == 4) //方块S
         {
-
+            if (!IsValidGridPos())
+            {
+                transform.position += new Vector3(1, 0, 0);
+                if (!IsValidGridPos())
+                {
+                    transform.position += new Vector3(-1, 0, 0);
+                    return false;
+                }
+            } 
         }
-        else if (Spawner.cubeType == 5) //方块T
+        else if (Spawner.cubeType == 6)
         {
-
+            if (!IsValidGridPos())
+            {
+                transform.position += new Vector3(-1, 0, 0);
+                if (!IsValidGridPos())
+                {
+                    transform.position += new Vector3(1, 0, 0);
+                    return false;
+                }
+            } 
         }
-        else if (Spawner.cubeType == 6) //方块Z
-        {
-
-        }
+       
         return true;
     }
 
