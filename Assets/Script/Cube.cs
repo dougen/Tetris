@@ -10,7 +10,9 @@ public class Cube : MonoBehaviour
     {
         if (!IsValidGridPos())
         {
-            Debug.Log("Game Over");
+            enabled = false;
+            Destroy(gameObject);
+            FindObjectOfType<GameManager>().GetComponent<GameManager>().GameOver();
         }
     }
 
@@ -68,6 +70,7 @@ public class Cube : MonoBehaviour
                 transform.position += new Vector3(0, 1, 0);
                 Grid.DeleteFullRows();
                 FindObjectOfType<Spawner>().SpawnNext();
+                GameManager.SCORE += 10;
                 enabled = false;  // 触底之后停止该脚本
             }
             lastFall = Time.time;

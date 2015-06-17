@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
-
+using UnityEngine.UI;
 using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour 
 {
-    private string path = Application.dataPath + "/rank.save";
+    private string path;
+
+    public GameObject spawner;
+    public Text scoreLable;
+    public Text gameOverLable;
+
+    public static int SCORE = 0;
 
     private struct RankInfo
     {
@@ -22,17 +28,23 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
-	    
+	    path = Application.dataPath + "/rank.save";
 	}
 	
 	void Update () 
 	{
-	
+        scoreLable.text = GameManager.SCORE.ToString();
 	}
 
     public void GameOver()
     {
+        spawner.SetActive(false);
+        gameOverLable.enabled = true;
 
+        for(int i=0; i<Grid.h; ++i)
+        {
+            Grid.DeleteRow(i);
+        }
     }
 
     private void WriteRankInfo(RankInfo rank, string path)

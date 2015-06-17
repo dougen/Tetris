@@ -71,6 +71,7 @@ public class Grid : MonoBehaviour
             if (IsRowFull(y))
             {
                 DeleteRow(y);
+                GameManager.SCORE += 100;
                 DecreaseRowsAbove(y + 1);
                 --y;  // 继续检查当前这行
             }
