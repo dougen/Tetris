@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     {
         spawner.SetActive(false);
         gameOverLable.enabled = true;
-
+        WriteRankInfo(new RankInfo(SCORE, Time.time), path);
         for(int i=0; i<Grid.h; ++i)
         {
             Grid.DeleteRow(i);
