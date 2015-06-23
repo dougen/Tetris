@@ -3,11 +3,14 @@ using System.Collections;
 
 public class Cube : MonoBehaviour
 {
+    private SoundManager sm;
+
     private float lastFall = 0;
     private int rotationType = 0;
 
     private void Start()
     {
+        sm = FindObjectOfType<SoundManager>();
         if (!IsValidGridPos())
         {
             enabled = false;
@@ -30,6 +33,8 @@ public class Cube : MonoBehaviour
             {
                 transform.position += new Vector3(1, 0, 0);
             }
+
+            sm.PlayMove();
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
@@ -43,6 +48,8 @@ public class Cube : MonoBehaviour
             {
                 transform.position += new Vector3(-1, 0, 0);
             }
+
+            sm.PlayMove();
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -56,6 +63,8 @@ public class Cube : MonoBehaviour
             {
                 RotationCube(--rotationType);
             }
+
+            sm.PlayTurn();
         }
         else if (Input.GetKey(KeyCode.DownArrow) || Time.time - lastFall >= 1)
         {

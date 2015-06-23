@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class GameManager : MonoBehaviour 
 {
     private string path;
+    private SoundManager sm;
 
     public GameObject spawner;
     public Text scoreLable;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
+        sm = FindObjectOfType<SoundManager>();
 	    path = Application.dataPath + "/rank.save";
 	}
 	
@@ -45,6 +47,8 @@ public class GameManager : MonoBehaviour
         {
             Grid.DeleteRow(i);
         }
+        sm.a.Stop();
+        sm.PlayGameOver();
     }
 
     private void WriteRankInfo(RankInfo rank, string path)
