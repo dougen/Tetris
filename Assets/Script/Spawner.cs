@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         nextType = Random.Range(0, groups.Length);
-        SpawnNext();
+        //SpawnNext();
     }
 
 	public void SpawnNext()

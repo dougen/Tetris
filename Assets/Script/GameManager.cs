@@ -12,8 +12,12 @@ public class GameManager : MonoBehaviour
     public GameObject spawner;
     public Text scoreLable;
     public Text gameOverLable;
+    public GameObject startPanel;
 
     public static int SCORE = 0;
+    public enum GameState { START, GAMING, GAMEOVER };
+    public static GameState state;
+
 
     private struct RankInfo
     {
@@ -27,6 +31,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 在所有脚本激活之前赋值
+    private void Awake()
+    {
+        state = GameState.START;
+    }
+
 	void Start () 
 	{
         sm = FindObjectOfType<SoundManager>();
@@ -36,17 +46,25 @@ public class GameManager : MonoBehaviour
 	void Update () 
 	{
         scoreLable.text = GameManager.SCORE.ToString();
+        if (state == GameState.GAMEOVER)
+        {
+            if (Input.anyKey)
+            {
+                GameStart();
+            }
+        }
 	}
 
     public void GameOver()
     {
-        spawner.SetActive(false);
-        gameOverLable.enabled = true;
-        WriteRankInfo(new RankInfo(SCORE, Time.time), path);
-        for(int i=0; i<Grid.h; ++i)
+        for (int i = 0; i < Grid.h; ++i)
         {
             Grid.DeleteRow(i);
         }
+        state = GameState.GAMEOVER;
+        spawner.SetActive(false);
+        gameOverLable.enabled = true;
+        WriteRankInfo(new RankInfo(SCORE, Time.time), path);
         sm.a.Stop();
         sm.PlayGameOver();
     }
@@ -92,5 +110,20 @@ public class GameManager : MonoBehaviour
         sr.Close();
         sr.Dispose();
         return ranks;
+    }
+
+    public void GameStart()
+    {
+        for (int i = 0; i < Grid.h; ++i)
+        {
+            Grid.DeleteRow(i);
+        }
+        state = GameState.GAMING;
+        startPanel.SetActive(false);
+        spawner.SetActive(true);
+        SCORE = 0;
+        spawner.GetComponent<Spawner>().SpawnNext();
+        sm.a.Play();
+        gameOverLable.enabled = false;
     }
 }
